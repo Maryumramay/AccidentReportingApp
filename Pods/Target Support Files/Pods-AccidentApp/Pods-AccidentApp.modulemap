@@ -1,0 +1,6 @@
+framework module Pods_AccidentApp {
+  umbrella header "Pods-AccidentApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
