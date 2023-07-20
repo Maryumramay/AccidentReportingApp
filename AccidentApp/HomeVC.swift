@@ -28,9 +28,6 @@ class HomeVC: UIViewController {
     
     // Get a reference to the storage service using the default Firebase App
     let storage = Storage.storage()
-
-    // Create a storage reference from our storage service
-    let storageRef = storage.reference()
     
     var imageURL = ""
     var videoURL = ""
@@ -38,6 +35,7 @@ class HomeVC: UIViewController {
     var firstImageSelected = false
     var secondImageSelected = false
     
+    var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +78,8 @@ class HomeVC: UIViewController {
         
         firstImageSelected = true
         secondImageSelected = false
+        
+        uploadContent()
      }
     
     @objc func tappedSecondImage(sender: UITapGestureRecognizer){
@@ -115,20 +115,20 @@ class HomeVC: UIViewController {
     }
     
     func uploadImage() {
-        
-        // Create a child reference
-        
+                
         // get current logged in user key
         let userId = Auth.auth().currentUser?.uid
-        
+        // Create a storage reference from our storage service
+        let storageRef = storage.reference()
+
         self.imageURL = "image:\(userId!).png"
         let imagesRef = storageRef.child(imageURL)
-
+        print(imagesRef)
         if let uploadData = self.firstImg.image?.jpegData(compressionQuality: 0.5) {
             storageRef.putData(uploadData, metadata:nil){  [self]  (metadata,error) in
                 
                 if error != nil {
-                    print(error.localizedDescription)
+                    print(error!.localizedDescription)
                 } else {
                     print("image uploaded successfully")
                 }
@@ -184,8 +184,6 @@ class HomeVC: UIViewController {
         }
                 
     }
-    
-    
 }
 
 extension HomeVC : UITextViewDelegate {
@@ -204,3 +202,13 @@ extension HomeVC : UITextViewDelegate {
         
     }
 }
+
+extension HomeVC : UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.dismiss(animated: true) {
+                // assigned image after picking from picker
+                self.firstImg.image = image
+            }
+        }
+    }}

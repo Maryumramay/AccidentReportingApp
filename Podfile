@@ -7,13 +7,11 @@ target 'AccidentApp' do
 
   pod 'FirebaseAnalytics'
   pod 'FirebaseAuth'
-  pod 'GoogleSignIn'
-  pod 'FBSDKLoginKit'
   pod 'Firebase'
   pod 'Firebase/Database'
   pod 'CodableFirebase'
   pod 'IQKeyboardManagerSwift', '6.3.0'
-  pod 'Firebase/Storage'
+  pod 'FirebaseStorage', '~> 10.12'
   pod 'CodableFirebase'
   # Pods for AccidentApp
 
